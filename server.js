@@ -1,30 +1,24 @@
-const fastify = require("fastify")({ logger: true });
+const fastify = require("fastify")({ logger: false });
 const mongoose = require("mongoose");
 const routesLog = require("./routes");
 const swagger = require("./config/swagger");
 const PORT = 5000;
 
-// register swagger apu
+// register swagger cors
 fastify.register(require("fastify-swagger"), swagger.options);
-
-// connect to DB
-mongoose
-  .connect("mongodb://localhost/loggerDebug")
-  .then(() => console.log("MongoDB connected…"))
-  .catch((err) => console.log(err));
+fastify.register(require("fastify-cors"), {
+  origin: "*",
+});
 
 // import routes
-routesLog.forEach((route, index) => {
+routesLog.forEach((route) => {
   fastify.route(route);
 });
 
-// fastify.get("/", (req, reply) => {
-//   reply.type("application/json").code(200);
-//   return { a: 1, b: 2 };
-// });
-
 const startServer = async () => {
+  let db = "mongodb://localhost:27017/loggerDebug";
   try {
+    await mongoose.connect(db);
     await fastify.listen(PORT);
     fastify.swagger();
     fastify.log.info(`Server redy: ${fastify.server.address().port}`);

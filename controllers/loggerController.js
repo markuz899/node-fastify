@@ -19,6 +19,7 @@ exports.getSingleLog = async (req, reply) => {
   try {
     const id = req.params.id;
     const log = await Logger.findById(id);
+    if (!log) return reply.status(404).send(new Error("Log not found"));
     return log;
   } catch (err) {
     throw boom.boomify(err);
@@ -27,6 +28,7 @@ exports.getSingleLog = async (req, reply) => {
 
 // Add a new log
 exports.addLog = async (req, reply) => {
+  if (!req.body) return reply.status(404).send(new Error("Body not found"));
   try {
     const log = new Logger({ ...req.body });
     return log.save();
