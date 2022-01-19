@@ -1,5 +1,5 @@
 const boom = require("boom");
-const Logger = require("../models/Logger");
+const Logger = require("../../models/Logger");
 
 // Get all log
 exports.getLogs = async (req, reply) => {

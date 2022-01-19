@@ -1,4 +1,4 @@
-const logController = require("../controllers/loggerController");
+const logController = require("../controllers/logger/loggerController");
 const LoggerSchema = require("../models/Logger");
 
 const apiUrl = "/api";
