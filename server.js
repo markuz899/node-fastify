@@ -21,7 +21,9 @@ const startServer = async () => {
     await mongoose.connect(db);
     await fastify.listen(PORT);
     fastify.swagger();
-    fastify.log.info(`Server redy: ${fastify.server.address().port}`);
+    const address = fastify.server.address();
+    console.log(`Server: ${address.address}:${address.port}`);
+    console.log(`Swagger: ${address.address}:${address.port}/documentation`);
   } catch (err) {
     fastify.log.error("madonnina", err);
     process.exit(1);

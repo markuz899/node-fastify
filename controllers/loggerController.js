@@ -1,13 +1,10 @@
-// External Dependancies
 const boom = require("boom");
-
-// Get Data Models
 const Logger = require("../models/Logger");
 
 // Get all log
 exports.getLogs = async (req, reply) => {
   try {
-    const logs = await Logger.find();
+    const logs = await Logger.find({}, { __v: 0 });
     return logs;
   } catch (err) {
     throw boom.boomify(err);
@@ -18,7 +15,7 @@ exports.getLogs = async (req, reply) => {
 exports.getSingleLog = async (req, reply) => {
   try {
     const id = req.params.id;
-    const log = await Logger.findById(id);
+    const log = await Logger.findById(id, { __v: 0 });
     if (!log) return reply.status(404).send(new Error("Log not found"));
     return log;
   } catch (err) {
