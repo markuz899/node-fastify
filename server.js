@@ -1,7 +1,7 @@
 const fastify = require("fastify")({ logger: false });
 const fastifyEnv = require("fastify-env");
+const fs = require("fs");
 const mongoose = require("mongoose");
-const routesLog = require("./routes");
 const swagger = require("./config/swagger");
 const PORT = 5000;
 
@@ -29,9 +29,17 @@ fastify.register(require("fastify-cors"), {
 });
 fastify.register(fastifyEnv, options);
 
-// import routes
-routesLog.forEach((route) => {
-  fastify.route(route);
+// import dinamical routes
+fs.readdir("./routes", (err, files) => {
+  if (err) return;
+  let allRoute = [];
+  files.forEach((file) => {
+    let routes = require(`./routes/${file}`);
+    allRoute = [...allRoute, ...routes];
+  });
+  allRoute.forEach((route) => {
+    fastify.route(route);
+  });
 });
 
 const startServer = async () => {
