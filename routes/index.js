@@ -18,7 +18,7 @@ const routes = [
     method: "POST",
     url: `${apiUrl}/logs`,
     handler: logController.addLog,
-    schema: LoggerSchema.addCarSchema,
+    schema: LoggerSchema,
   },
   {
     method: "PUT",

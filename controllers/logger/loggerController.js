@@ -2,7 +2,7 @@ const boom = require("boom");
 const Logger = require("../../models/Logger");
 
 // Get all log
-exports.getLogs = async (req, reply) => {
+const getLogs = async (req, reply) => {
   try {
     const logs = await Logger.find({}, { __v: 0 });
     return logs;
@@ -12,7 +12,7 @@ exports.getLogs = async (req, reply) => {
 };
 
 // Get single log by ID
-exports.getSingleLog = async (req, reply) => {
+const getSingleLog = async (req, reply) => {
   try {
     const id = req.params.id;
     const log = await Logger.findById(id, { __v: 0 });
@@ -24,7 +24,7 @@ exports.getSingleLog = async (req, reply) => {
 };
 
 // Add a new log
-exports.addLog = async (req, reply) => {
+const addLog = async (req, reply) => {
   if (!req.body) return reply.status(404).send(new Error("Body not found"));
   try {
     const log = new Logger({ ...req.body });
@@ -35,7 +35,7 @@ exports.addLog = async (req, reply) => {
 };
 
 // Update an existing log
-exports.updateLog = async (req, reply) => {
+const updateLog = async (req, reply) => {
   try {
     const id = req.params.id;
     const log = req.body;
@@ -50,7 +50,7 @@ exports.updateLog = async (req, reply) => {
 };
 
 // Delete a log
-exports.deleteLog = async (req, reply) => {
+const deleteLog = async (req, reply) => {
   try {
     const id = req.params.id;
     const log = await Logger.findByIdAndRemove(id);
@@ -58,4 +58,12 @@ exports.deleteLog = async (req, reply) => {
   } catch (err) {
     throw boom.boomify(err);
   }
+};
+
+module.exports = {
+  getLogs,
+  getSingleLog,
+  addLog,
+  updateLog,
+  deleteLog,
 };
