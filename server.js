@@ -33,10 +33,10 @@ fastify.register(fastifyEnv, options);
 fs.readdir("./routes", (err, files) => {
   if (err) return;
   let allRoute = [];
-  files.forEach((file) => {
+  for (let file of files) {
     let routes = require(`./routes/${file}`);
     allRoute = [...allRoute, ...routes];
-  });
+  }
   allRoute.forEach((route) => {
     fastify.route(route);
   });
