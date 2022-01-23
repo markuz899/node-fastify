@@ -30,6 +30,11 @@ const routes = [
     url: `${apiUrl}/logs/:id`,
     handler: logController.deleteLog,
   },
+  {
+    method: "DELETE",
+    url: `${apiUrl}/drop-logs`,
+    handler: logController.dropLog,
+  },
 ];
 
 module.exports = routes;

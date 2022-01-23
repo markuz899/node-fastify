@@ -28,6 +28,7 @@ fastify.register(require("fastify-cors"), {
   origin: "*",
 });
 fastify.register(fastifyEnv, options);
+fastify.register(require("fastify-axios"));
 
 // import dinamical routes
 fs.readdir("./routes", (err, files) => {
@@ -41,6 +42,18 @@ fs.readdir("./routes", (err, files) => {
     fastify.route(route);
   });
 });
+
+// testing routes
+// fastify.get("/", async function (req, reply) {
+//   try {
+//     const { data } = await fastify.axios.get(
+//       "https://jsonplaceholder.typicode.com/todos/1"
+//     );
+//     reply.code(200).send(data);
+//   } catch (err) {
+//     console.log(err);
+//   }
+// });
 
 const startServer = async () => {
   await fastify.after();
